@@ -16,14 +16,14 @@ BUTTON_LEFT_FIRE = 4
 mouseHandler = MouseHandler('right')
 lootBox = LootBox(CHARACTER_POSITION, PIXEL_OFFSET, mouseHandler)
 
-eventHandler = MouseButtonEventHandler()
+eventHandler = MouseClickEventListener()
 eventHandler.on(BUTTON_WHELL, lambda event : print(mouseHandler.current_position()))
 eventHandler.on(BUTTON_LEFT_FIRE, lambda event : lootBox.exec())
 
 class AppDelegate(NSObject):
     def applicationDidFinishLaunching_(self, notification):
-        NSEvent.addGlobalMonitorForEventsMatchingMask_handler_(NSOtherMouseDownMask, eventHandler.trigger_event)
-        print('FaskPick :: RUNNING', self)
+        NSEvent.addGlobalMonitorForEventsMatchingMask_handler_(NSOtherMouseDownMask, eventHandler.trigger)
+        print('LootBox :: RUNNING')
 
 if __name__ == '__main__':
     app = NSApplication.sharedApplication()
