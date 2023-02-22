@@ -1,4 +1,3 @@
-import time
 from AppKit import NSEvent
 from Quartz import CGEventPost, CGEventCreateKeyboardEvent, CGEventCreateMouseEvent, CGDisplayPixelsHigh, kCGHIDEventTap, kCGEventMouseMoved, kCGEventLeftMouseDown, kCGEventLeftMouseUp, kCGEventRightMouseDown, kCGEventRightMouseUp
 
