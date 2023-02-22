@@ -16,18 +16,11 @@ class SortLoot:
     self.screen_capture = ScreenCapture()
     self.mouse_handler = MouseHandler('left')
     self.keyboard_handler = KeyboardHandler()
+    self._containers = None
 
-  def run(self, screen_image):
-    screen_image = self.screen_capture.capture()
-    container_positions = find_containers(screen_image, [
-      LOOT_BAG, RASHID, GREEN_DJIN, BLUE_DJIN,
-    ])
-
-    loot_bag = container_positions.get(LOOT_BAG)
-    if loot_bag is None:
-      return print('check if loot bag is opened')
-
-    self._look_item(loot_bag)
+  def run(self, screen_image = None):
+    self._load_containers()
+    self._look_item(self._containers.get(LOOT_BAG))
     
     screen_image = self.screen_capture.capture()
     item_name = messages(screen_image)[-1]
@@ -37,11 +30,26 @@ class SortLoot:
         print(f'not configured to item {item_name}')
         return
 
-    item_destination_pos = container_positions.get(item_destination)
+    item_destination_pos = self._containers.get(item_destination)
     if item_destination_pos is None:
       return print(f'unable to detect {item_destination}')
 
     self.mouse_handler.drag(item_destination_pos)
+
+  def _load_containers(self):
+    if not self._containers is None:
+      return
+
+    screen_image = self.screen_capture.capture()
+    container_positions = find_containers(screen_image, [
+      LOOT_BAG, RASHID, GREEN_DJIN, BLUE_DJIN,
+    ])
+    
+    if len(container_positions.keys()) != 4:
+      raise Exception('unable to check all containers')
+
+    self._containers = container_positions
+
 
   def _look_item(self, position): 
     self.keyboard_handler.press('shift')
