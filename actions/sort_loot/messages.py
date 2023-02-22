@@ -26,7 +26,7 @@ def messages(image):
   result = []
   for text, _ in image_reader.flush():
     
-    matches = re.search(r".* You see (a )?([a-z A-Z]*)( \(.*)?.", text)
+    matches = re.search(r".* You see (a )?([a-z A-Z]*)( \(.*)?.?", text)
     if matches is None: 
       continue
 
