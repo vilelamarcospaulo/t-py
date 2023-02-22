@@ -78,11 +78,11 @@ class _BufferReader:
     self.id = id
 
   def flush(self):
-    if self.buffered != '':
+    if not self.buffered is None:
       self.lines.append((self.buffered.strip(), self.loc))
       self.id = None
       self.loc = None
-      self.buffered = ''
+      self.buffered = None
 
     return self.lines
 
