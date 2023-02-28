@@ -24,7 +24,7 @@ class SortLoot:
     
     screen_image = self.screen_capture.capture()
     item_name = messages(screen_image)[-1]
-    item_destination = sort_items.get(item_name)
+    item_destination = sort_items.get(item_name.strip())
 
     if item_destination is None:
         print(f'not configured to item {item_name}')
@@ -34,6 +34,7 @@ class SortLoot:
     if item_destination_pos is None:
       return print(f'unable to detect {item_destination}')
 
+    print(f'moving {item_name} to {item_destination}')
     self.mouse_handler.drag(item_destination_pos)
 
   def _load_containers(self):
@@ -58,5 +59,23 @@ class SortLoot:
 
 ## TODO :: Extract to a .dat file
 sort_items = {}
-sort_items['warrior helmet'] = GREEN_DJIN
 sort_items['ruby necklace'] = RASHID
+sort_items['spiked squelcher'] = RASHID
+sort_items['assassin dagger'] = RASHID
+sort_items['oriental shoes'] = RASHID
+sort_items['skullcracker armor'] = RASHID
+sort_items['knight legs'] = RASHID
+sort_items['shockwave amulet'] = RASHID
+sort_items['glacier amulet'] = RASHID
+sort_items['lightning pendant'] = RASHID
+sort_items['terra mantle'] = RASHID
+sort_items['terra amulet'] = RASHID
+
+sort_items['warrior helmet'] = GREEN_DJIN
+
+sort_items['blue robe'] = BLUE_DJIN
+sort_items['ice rapier'] = BLUE_DJIN
+sort_items['wand of voodoo'] = BLUE_DJIN
+sort_items['glorious axe'] = BLUE_DJIN
+sort_items['wand of starstorm'] = BLUE_DJIN
+sort_items['terra rod'] = BLUE_DJIN
