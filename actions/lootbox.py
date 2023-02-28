@@ -7,6 +7,9 @@ class LootBox:
         self.offsetX, self.offsetY = offSet
         self.mouseHandler = mouseHandler
 
+    def set_position(self, charScreenPosition):
+        self.charX, self.charY = charScreenPosition
+
     def exec(self):
         positions = self._calc_box_positions()
         random.shuffle(positions)
