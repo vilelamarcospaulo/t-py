@@ -2,10 +2,10 @@ import time
 import random
 
 class LootBox:
-    def __init__(self, charScreenPosition, offSet, mouseHandler):
+    def __init__(self, offSet, mouse_handler, charScreenPosition = (0, 0)):
         self.charX, self.charY = charScreenPosition
         self.offsetX, self.offsetY = offSet
-        self.mouseHandler = mouseHandler
+        self.mouse_handler = mouse_handler
 
     def set_position(self, charScreenPosition):
         self.charX, self.charY = charScreenPosition
@@ -15,8 +15,9 @@ class LootBox:
         random.shuffle(positions)
         
         for pos in positions:
-            self.mouseHandler.click(pos)
-            rand_delay = random.uniform(0.09, 0.12)
+            self.mouse_handler.click(pos)
+
+            rand_delay = random.uniform(0.09, 0.12) # PREVENT "PERFECT" MOUSE MOVEMENT
             time.sleep(rand_delay)
         
     def _calc_box_positions(self): 
