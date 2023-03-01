@@ -1,39 +1,36 @@
-from AppKit import NSApplication, NSApp, NSObject
-from Cocoa import NSEvent, NSScrollWheelMask, NSOtherMouseDownMask
-from Foundation import NSBundle
-from PyObjCTools import AppHelper
 
 from actions.lootbox import LootBox
 from actions.sort_loot.sort_loot import SortLoot
 from handlers.mouse_handler import MouseHandler
 from listeners.mouse_click_event_listener import MouseClickEventListener
 
-CHARACTER_POSITION = (2671, 545)
 PIXEL_OFFSET = (60, 60)
 
-BUTTON_WHELL = 2
-BUTTON_SORT_LOOT = 5
-BUTTON_LEFT_FIRE = 4
+BUTTON_WHEEL = 2
+BUTTON_ACTION = 4
 
-mouseHandler = MouseHandler('right')
-lootBox = LootBox(CHARACTER_POSITION, PIXEL_OFFSET, mouseHandler)
 
-sort_loot = SortLoot()
+class EventExecutor():
+    def __init__(self) -> None:
+        self.right_click_handler = MouseHandler('right')
+        self.sort_loot = SortLoot()
+        self.loot_box = LootBox(PIXEL_OFFSET, self.right_click_handler)
 
-eventHandler = MouseClickEventListener()
-eventHandler.on(BUTTON_WHELL, lambda event : lootBox.set_position(mouseHandler.current_position()))
-eventHandler.on(BUTTON_LEFT_FIRE, lambda event : lootBox.exec())
-eventHandler.on(BUTTON_SORT_LOOT, lambda event : sort_loot.run())
+        self.eventHandler = MouseClickEventListener()
 
-class AppDelegate(NSObject):
-    def applicationDidFinishLaunching_(self, notification):
-        NSEvent.addGlobalMonitorForEventsMatchingMask_handler_(NSOtherMouseDownMask, eventHandler.trigger)
-        print('LootBox :: RUNNING')
+    def to_loot_box(self):
+        self.eventHandler.reset()
+        self.eventHandler.on(
+            BUTTON_WHEEL, lambda event: self.loot_box.set_position())
 
-if __name__ == '__main__':
-    app = NSApplication.sharedApplication()
-    
-    delegate = AppDelegate.alloc().init()
-    NSApp().setDelegate_(delegate)
+        self.eventHandler.on(
+            BUTTON_ACTION, lambda event: self.loot_box.exec())
 
-    AppHelper.runEventLoop()
+    def to_loot_sort(self):
+        self.sort_loot.reset()
+        self.eventHandler.reset()
+        self.eventHandler.on(
+            BUTTON_WHEEL, lambda event: self.sort_loot.run())
+
+    def process(self, event):
+        self.eventHandler.trigger(event)
