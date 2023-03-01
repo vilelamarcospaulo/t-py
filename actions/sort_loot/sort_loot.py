@@ -45,16 +45,10 @@ class SortLoot:
         if not self._containers is None:
             return
 
-        # screen_image = self.screen_capture.capture()
-        # container_positions = find_containers(screen_image, [
-        #   LOOT_BAG, RASHID, GREEN_DJIN, BLUE_DJIN,
-        # ])
-
-        container_positions = {}
-        container_positions[LOOT_BAG] = (1887, 84)
-        container_positions[RASHID] = (1886, 261)
-        container_positions[GREEN_DJIN] = (1889, 477)
-        container_positions[BLUE_DJIN] = (1882, 690)
+        screen_image = self.screen_capture.capture()
+        container_positions = find_containers(screen_image, [
+            LOOT_BAG, RASHID, GREEN_DJIN, BLUE_DJIN,
+        ])
 
         if len(container_positions.keys()) != 4:
             str = container_positions.keys().__format__('')
@@ -63,7 +57,7 @@ class SortLoot:
         self._containers = container_positions
 
     def _look_item(self, position):
-        time.sleep(1)
+        time.sleep(.5)
         self.keyboard_handler.press('shift')
         self.mouse_handler.click(position)
         self.keyboard_handler.release('shift')

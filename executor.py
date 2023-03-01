@@ -31,6 +31,8 @@ class EventExecutor():
         self.eventHandler.reset()
         self.eventHandler.on(
             BUTTON_WHEEL, lambda event: self.sort_loot.run())
+        self.eventHandler.on(
+            BUTTON_ACTION, lambda event: print(self.right_click_handler.current_position()))
 
     def process(self, event):
         self.eventHandler.trigger(event)
