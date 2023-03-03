@@ -18,22 +18,22 @@ def messages(image, possible_names):
     image_reader = ImageTextPosition()
     image_reader.process_image(cropped)
 
-    result = []
+    item_names = []
     text_matcher = TextMatcher(possible_names)
 
     for text, _ in image_reader.flush():
         matches = re.search(
             r"You see ((a|an) )?(((?!that|\()([a-zA-Z]+)| )*)", text)
         if matches is None:
-            # print(f'regex item name fail {text}')
             continue
 
         text = matches.groups()[2]
-        item_name = text_matcher.check_text(text)
-        print(f'match item name fail {matches}')
-        if item_name is None:
+        item_names.append(text)
+
+    for item_name in reversed(item_names):
+        item_name_match = text_matcher.check_text(item_name)
+        print(f'{item_name} {item_name_match}')
+        if item_name_match is None:
             continue
 
-        result.append(item_name)
-
-    return result
+        return item_name_match
