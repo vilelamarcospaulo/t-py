@@ -10,6 +10,8 @@ LOOT_BAG = 'shopping bag'
 RASHID = 'red backpack'
 GREEN_DJIN = 'green backpa'
 BLUE_DJIN = 'blue backpack'
+ESRIK = 'expedition backpack'
+EDRON = 'brocade backpack'
 
 
 class SortLoot:
@@ -27,7 +29,10 @@ class SortLoot:
         self._look_item(self._containers.get(LOOT_BAG))
 
         screen_image = self.screen_capture.capture()
-        item_name = messages(screen_image, sort_items.keys())[-1]
+        item_name = messages(screen_image, sort_items.keys())
+        if item_name is None:
+            return
+
         item_destination = sort_items.get(item_name.strip())
 
         if item_destination is None:
@@ -47,12 +52,12 @@ class SortLoot:
 
         screen_image = self.screen_capture.capture()
         container_positions = find_containers(screen_image, [
-            LOOT_BAG, RASHID, GREEN_DJIN, BLUE_DJIN,
+            LOOT_BAG, RASHID, GREEN_DJIN, BLUE_DJIN, ESRIK, EDRON
         ])
 
-        if len(container_positions.keys()) != 4:
-            str = container_positions.keys().__format__('')
-            raise Exception(f'unable to check all containers {str}')
+        # if len(container_positions.keys()) != 5:
+        #     str = container_positions.keys().__format__('')
+        #     raise Exception(f'unable to check all containers {str}')
 
         self._containers = container_positions
 
@@ -75,19 +80,34 @@ sort_items['glacier amulet'] = RASHID
 sort_items['lightning pendant'] = RASHID
 sort_items['terra mantle'] = RASHID
 sort_items['terra amulet'] = RASHID
+sort_items['death ring'] = RASHID
+sort_items['ring of the sky'] = RASHID
+sort_items['sacred tree amulet'] = RASHID
+sort_items['platinum amulet'] = RASHID
+sort_items['magma amulet'] = RASHID
+sort_items['wyvern fang'] = RASHID
 
 sort_items['knight legs'] = GREEN_DJIN
 sort_items['hailstorm rod'] = GREEN_DJIN
 sort_items['necrotic rod'] = GREEN_DJIN
 sort_items['northwind rod'] = GREEN_DJIN
+sort_items['springsprout rod'] = GREEN_DJIN
 sort_items['underworld rod'] = GREEN_DJIN
 sort_items['terra rod'] = GREEN_DJIN
 sort_items['warrior helmet'] = GREEN_DJIN
+sort_items['tower shield'] = GREEN_DJIN
 
 sort_items['blue robe'] = BLUE_DJIN
 sort_items['ice rapier'] = BLUE_DJIN
 sort_items['wand of voodoo'] = BLUE_DJIN
 sort_items['wand of inferno'] = BLUE_DJIN
+sort_items['wand of cosmic energy'] = BLUE_DJIN
 sort_items['glorious axe'] = BLUE_DJIN
 sort_items['wand of starstorm'] = BLUE_DJIN
 sort_items['guardian shield'] = BLUE_DJIN
+
+sort_items['zaoan armor'] = ESRIK
+sort_items['zaoan halberd'] = ESRIK
+sort_items['zaoan legs'] = ESRIK
+sort_items['zaoan shoes'] = ESRIK
+sort_items['drakinata'] = ESRIK
